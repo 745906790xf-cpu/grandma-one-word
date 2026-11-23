@@ -11,6 +11,17 @@ import os
 WORD = "Beepboop"
 
 
+def check_word(word: str) -> str:
+    """Return the word unchanged, guarding the gate's limits.
+
+    The gate accepts one word of 1 to 30 characters with no whitespace,
+    so fail loudly here rather than write an entry the judge never sees.
+    """
+    if not word or len(word) > 30 or any(ch.isspace() for ch in word):
+        raise ValueError("entry must be one word of 1 to 30 characters")
+    return word
+
+
 def write_entry(path: str = "/output/entry.txt") -> None:
     """Write the word as UTF-8 with no trailing newline.
 
@@ -22,7 +33,7 @@ def write_entry(path: str = "/output/entry.txt") -> None:
     if parent:
         os.makedirs(parent, exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="") as handle:
-        handle.write(WORD)
+        handle.write(check_word(WORD))
 
 
 def main() -> None:
